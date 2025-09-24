@@ -1,0 +1,19 @@
+
+
+#services:
+#  app:
+#    image: openjdk:17
+#    container_name: myapp
+#    command: java -jar app.jar
+#    ports:
+#      - "8080:8080"
+
+#  db:
+#    image: postgres:15
+#    container_name: mydb
+#    environment:
+#      POSTGRES_USER: user
+#      POSTGRES_PASSWORD: pass
+#      POSTGRES_DB: mydb
+#    ports:
+#      - "5432:5432"
