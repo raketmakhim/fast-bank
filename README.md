@@ -21,4 +21,4 @@ Docker (for running the database)
    ```
     mvn spring-boot:run
     ```
-7. Access the application at `http://localhost:8080`
+7. Access the application at `http://localhost:8080`.
