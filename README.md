@@ -1,2 +1,2 @@
 # fast-bank
-Banking project for learning 
+Banking project for learning .
