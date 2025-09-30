@@ -3,6 +3,7 @@ package com.fastbank.fast_bank.service;
 import com.fastbank.fast_bank.dto.PersonRequest;
 import com.fastbank.fast_bank.entity.Person;
 import com.fastbank.fast_bank.repository.PersonRepository;
+import com.fastbank.fast_bank.mapper.PersonMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,7 @@ public class PersonService {
     }
 
     public Person savePerson(PersonRequest request) {
-        Person person = new Person();
-        person.setFirstName(request.getFirstName());
-        person.setLastName(request.getLastName());
-        return personRepository.save(person);
+        return personRepository.save(PersonMapper.personToEntity(request));
     }
     
     public List<Person> getPeople(){

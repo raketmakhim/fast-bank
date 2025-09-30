@@ -9,7 +9,9 @@ import lombok.*;
 @Entity
 @Table(name = "people")
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@Builder
 public class Person {
 
     @Id
