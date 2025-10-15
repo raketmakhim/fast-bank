@@ -5,6 +5,7 @@ import com.fastbank.fast_bank.entity.Person;
 import com.fastbank.fast_bank.service.PersonService;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class HelloController {
     private final PersonService personService;
 
@@ -28,12 +30,17 @@ public class HelloController {
 
     @PostMapping("/person")
     public ResponseEntity<?> createPerson(@Valid @RequestBody PersonRequest personRequest) {
+        log.info("Received person creation request: {}", personRequest);
         Person person = personService.savePerson(personRequest);
+        log.info("Person created successfully: {}", person);
         return ResponseEntity.ok("Person created: " + person.toString());
     }
 
     @GetMapping("/people")
-    public List<Person> getPeople() {
-        return personService.getPeople();
+    public ResponseEntity<List<Person>> getPeople() {
+        log.info("Received request to get all people");
+        List<Person> people = personService.getPeople();
+        log.info("Returning {} people", people.size());
+        return ResponseEntity.ok(people);
     }
 }
