@@ -1,13 +1,16 @@
 package com.fastbank.fast_bank.exception;
 
 import com.fastbank.fast_bank.dto.ErrorResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -15,18 +18,22 @@ public class ValidationExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
+        List<ErrorResponse.FieldError> fieldErrors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(err -> new ErrorResponse.FieldError(err.getField(), err.getDefaultMessage()))
+                .toList();
 
-        ErrorResponse er = new ErrorResponse();
-        er.setMessage("Validation failed: " + errorMessage);
-        er.setErrorCode("VALIDATION_ERROR");
-        er.setTimestamp(LocalDateTime.now());
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                "Validation failed",
+                request.getRequestURI(),
+                fieldErrors
+        );
 
-        return ResponseEntity.badRequest().body(er);
+        return ResponseEntity.badRequest().body(response);
     }
 
 }
