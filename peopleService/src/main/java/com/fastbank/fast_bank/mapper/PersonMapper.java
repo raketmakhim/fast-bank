@@ -7,7 +7,7 @@ public class PersonMapper {
     public static Person personToEntity(PersonRequest request) {
         return Person.builder()
             .firstName(request.getFirstName())
-            .lastName(request.getFirstName())
+            .lastName(request.getLastName())
             .build();
     }
 }
