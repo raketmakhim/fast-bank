@@ -3,7 +3,6 @@ package com.fastbank.fast_bank.controller;
 import com.fastbank.fast_bank.dto.PersonRequest;
 import com.fastbank.fast_bank.entity.Person;
 import com.fastbank.fast_bank.service.PersonService;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
