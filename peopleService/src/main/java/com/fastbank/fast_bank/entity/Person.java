@@ -25,8 +25,6 @@ public class Person {
     @Column(name = "lastname", length = 50)
     private String lastName;
 
-    public Person(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+    @Column(name = "email", length = 100, unique = true)
+    private String email;
 }

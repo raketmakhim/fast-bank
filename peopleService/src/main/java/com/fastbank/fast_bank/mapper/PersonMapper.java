@@ -8,6 +8,7 @@ public class PersonMapper {
         return Person.builder()
             .firstName(request.getFirstName())
             .lastName(request.getLastName())
+            .email(request.getEmail())
             .build();
     }
 }
