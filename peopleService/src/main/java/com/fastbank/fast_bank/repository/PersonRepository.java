@@ -1,6 +1,6 @@
 package com.fastbank.fast_bank.repository;
 
-import com.fastbank.fast_bank.entity.Person;
+import com.fastbank.fast_bank.model.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

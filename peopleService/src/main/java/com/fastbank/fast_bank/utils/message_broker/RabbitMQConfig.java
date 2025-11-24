@@ -1,4 +1,4 @@
-package com.fastbank.fast_bank.message_broker;
+package com.fastbank.fast_bank.utils.message_broker;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

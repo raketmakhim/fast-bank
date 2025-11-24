@@ -1,9 +1,9 @@
-package com.fastbank.fast_bank.entity;
+package com.fastbank.fast_bank.model.entity;
 
-import jakarta.annotation.Nonnull;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import java.util.UUID;
 
 @Setter
 @Entity
@@ -16,8 +16,8 @@ import lombok.*;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // SERIAL maps to identity
-    private Long id;
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID personId;
 
     @Column(name = "firstname", length = 50)
     private String firstName;
@@ -25,6 +25,6 @@ public class Person {
     @Column(name = "lastname", length = 50)
     private String lastName;
 
-    @Column(name = "email", length = 100, unique = true)
+    @Column(name = "email", length = 100, unique = false)
     private String email;
 }
