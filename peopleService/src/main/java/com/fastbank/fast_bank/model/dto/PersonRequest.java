@@ -1,4 +1,4 @@
-package com.fastbank.fast_bank.dto;
+package com.fastbank.fast_bank.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

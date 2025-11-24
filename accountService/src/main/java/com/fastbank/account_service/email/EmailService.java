@@ -1,6 +1,6 @@
 package com.fastbank.account_service.email;
 
-import com.fastbank.account_service.dto.PersonRecord;
+import com.fastbank.account_service.model.dto.PersonRecord;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,13 @@ import java.time.Year;
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
 
-    @Autowired
-    private TemplateEngine templateEngine;
+    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
 
     public void sendAccountCreatedEmail(PersonRecord person) {
         try {

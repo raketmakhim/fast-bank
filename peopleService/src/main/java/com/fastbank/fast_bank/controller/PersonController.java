@@ -1,7 +1,8 @@
 package com.fastbank.fast_bank.controller;
 
-import com.fastbank.fast_bank.dto.PersonRequest;
-import com.fastbank.fast_bank.entity.Person;
+import com.fastbank.fast_bank.model.dto.PersonRequest;
+import com.fastbank.fast_bank.model.dto.PersonResponse;
+import com.fastbank.fast_bank.model.entity.Person;
 import com.fastbank.fast_bank.service.PersonService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
@@ -37,9 +38,9 @@ public class PersonController {
     }
 
     @GetMapping("/people")
-    public ResponseEntity<List<Person>> getPeople() {
+    public ResponseEntity<List<PersonResponse>> getPeople() {
         log.info("Received request to get all people");
-        List<Person> people = personService.getPeople();
+        List<PersonResponse> people = personService.getPeople();
         log.info("Returning {} people", people.size());
         return ResponseEntity.ok(people);
     }

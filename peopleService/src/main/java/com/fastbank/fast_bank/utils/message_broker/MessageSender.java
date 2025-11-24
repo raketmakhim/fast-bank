@@ -1,7 +1,6 @@
-package com.fastbank.fast_bank.message_broker;
+package com.fastbank.fast_bank.utils.message_broker;
 
-import com.fastbank.fast_bank.dto.PersonRequest;
-import com.fastbank.fast_bank.entity.Person;
+import com.fastbank.fast_bank.model.entity.Person;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,7 +16,7 @@ public class MessageSender {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public void sendMessage(PersonRequest person) throws JsonProcessingException {
+    public void sendMessage(Person person) throws JsonProcessingException {
         String personJson = objectMapper.writeValueAsString(person);
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
