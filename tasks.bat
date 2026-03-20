@@ -16,6 +16,7 @@ if "%1"=="full-build" goto full-build
 if "%1"=="reports" goto reports
 if "%1"=="jar" goto jar
 if "%1"=="verify" goto verify
+if "%1"=="format" goto format
 goto unknown
 
 :help
@@ -39,6 +40,7 @@ echo   full-build    - Clean, build, test, and run all checks
 echo   reports       - Show generated report locations
 echo   jar           - Build executable JARs for all services
 echo   verify        - Run build with all verifications
+echo   format        - Auto-fix imports, trailing whitespace and missing newlines
 echo.
 goto end
 
@@ -101,6 +103,11 @@ goto end
 :verify
 echo Running verification...
 gradlew.bat clean check
+goto end
+
+:format
+echo Formatting code...
+gradlew.bat spotlessApply
 goto end
 
 :unknown

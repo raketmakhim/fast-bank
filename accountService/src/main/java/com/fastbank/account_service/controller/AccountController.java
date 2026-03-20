@@ -1,15 +1,13 @@
 package com.fastbank.account_service.controller;
 
+import com.fastbank.account_service.exception.AccountNotFoundException;
 import com.fastbank.account_service.model.entity.Account;
 import com.fastbank.account_service.model.enums.AccountStatus;
-import com.fastbank.account_service.exception.AccountNotFoundException;
 import com.fastbank.account_service.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -24,8 +22,8 @@ public class AccountController {
     @PatchMapping("/{accountId}/status")
     public ResponseEntity<Account> updateAccountStatus(
             @PathVariable UUID accountId,
-            @RequestParam AccountStatus status  // Spring automatically converts from string
-    ) throws AccountNotFoundException {
+            @RequestParam AccountStatus status // Spring automatically converts from string
+            ) throws AccountNotFoundException {
         Account account = accountService.updateStatus(accountId, status);
         return ResponseEntity.ok(account);
     }

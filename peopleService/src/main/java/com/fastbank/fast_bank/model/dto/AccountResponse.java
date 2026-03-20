@@ -12,5 +12,4 @@ public record AccountResponse(
         BigDecimal balance,
         String status,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
-) {}
+        LocalDateTime updatedAt) {}

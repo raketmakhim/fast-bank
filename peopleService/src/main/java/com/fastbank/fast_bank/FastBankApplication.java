@@ -8,8 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class FastBankApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FastBankApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(FastBankApplication.class, args);
+    }
 }

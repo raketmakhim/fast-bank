@@ -1,24 +1,22 @@
 package com.fastbank.account_service.service;
 
+import com.fastbank.account_service.exception.AccountNotFoundException;
 import com.fastbank.account_service.model.dto.PersonRecord;
 import com.fastbank.account_service.model.entity.Account;
 import com.fastbank.account_service.model.enums.AccountStatus;
-import com.fastbank.account_service.exception.AccountNotFoundException;
 import com.fastbank.account_service.model.enums.AccountType;
 import com.fastbank.account_service.repository.AccountRepository;
 import com.fastbank.account_service.utils.AccountNumberGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository){
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
@@ -38,9 +36,12 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public Account updateStatus(UUID accountId, AccountStatus status) throws AccountNotFoundException {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException(accountId));
+    public Account updateStatus(UUID accountId, AccountStatus status)
+            throws AccountNotFoundException {
+        Account account =
+                accountRepository
+                        .findById(accountId)
+                        .orElseThrow(() -> new AccountNotFoundException(accountId));
 
         account.setStatus(status);
         return accountRepository.save(account);

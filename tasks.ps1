@@ -27,6 +27,7 @@ function Show-Help {
     Write-Host "  reports       - Show generated report locations"
     Write-Host "  jar           - Build executable JARs for all services"
     Write-Host "  verify        - Run build with all verifications"
+  Write-Host "  format        - Auto-fix imports, trailing whitespace and missing newlines"
     Write-Host ""
 }
 
@@ -82,6 +83,10 @@ switch ($Command.ToLower()) {
     "verify" {
         Write-Host "Running verification..." -ForegroundColor Cyan
         .\gradlew.bat clean check
+    }
+    "format" {
+        Write-Host "Formatting code..." -ForegroundColor Cyan
+        .\gradlew.bat spotlessApply
     }
     default {
         Write-Host "Unknown command: $Command" -ForegroundColor Red

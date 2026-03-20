@@ -3,14 +3,12 @@ package com.fastbank.account_service.email;
 import com.fastbank.account_service.model.dto.PersonRecord;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.Year;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.time.Year;
 
 @Service
 public class EmailService {
