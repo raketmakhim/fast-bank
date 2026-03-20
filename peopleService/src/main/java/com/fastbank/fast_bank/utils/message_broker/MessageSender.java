@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MessageSender {
 
-    @Autowired private RabbitTemplate rabbitTemplate;
+  @Autowired private RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(Person person) {
-        rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
-        log.info("Sent: {}", person);
-    }
+  public void sendMessage(Person person) {
+    rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
+    log.info("Sent: {}", person);
+  }
 }

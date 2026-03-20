@@ -5,12 +5,12 @@ import com.fastbank.fast_bank.model.entity.Person;
 import java.util.UUID;
 
 public class PersonMapper {
-    public static Person personToEntity(PersonRequest request) {
-        return Person.builder()
-                .personId(UUID.randomUUID())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .build();
-    }
+  public static Person personToEntity(PersonRequest request) {
+    return Person.builder()
+        .personId(UUID.randomUUID())
+        .firstName(request.getFirstName())
+        .lastName(request.getLastName())
+        .email(request.getEmail())
+        .build();
+  }
 }

@@ -12,25 +12,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ValidationExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpServletRequest request) {
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
+      MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-        List<ErrorResponse.FieldError> fieldErrors =
-                ex.getBindingResult().getFieldErrors().stream()
-                        .map(
-                                err ->
-                                        new ErrorResponse.FieldError(
-                                                err.getField(), err.getDefaultMessage()))
-                        .toList();
+    List<ErrorResponse.FieldError> fieldErrors =
+        ex.getBindingResult().getFieldErrors().stream()
+            .map(err -> new ErrorResponse.FieldError(err.getField(), err.getDefaultMessage()))
+            .toList();
 
-        ErrorResponse response =
-                new ErrorResponse(
-                        HttpStatus.BAD_REQUEST,
-                        "Validation failed",
-                        request.getRequestURI(),
-                        fieldErrors);
+    ErrorResponse response =
+        new ErrorResponse(
+            HttpStatus.BAD_REQUEST, "Validation failed", request.getRequestURI(), fieldErrors);
 
-        return ResponseEntity.badRequest().body(response);
-    }
+    return ResponseEntity.badRequest().body(response);
+  }
 }

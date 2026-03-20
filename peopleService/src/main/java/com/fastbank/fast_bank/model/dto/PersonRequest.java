@@ -8,15 +8,15 @@ import lombok.Getter;
 @Getter
 public class PersonRequest implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "firstName cannot be blank.")
-    private String firstName;
+  @NotBlank(message = "firstName cannot be blank.")
+  private String firstName;
 
-    @NotBlank(message = "lastName cannot be blank.")
-    private String lastName;
+  @NotBlank(message = "lastName cannot be blank.")
+  private String lastName;
 
-    @Email
-    @NotBlank(message = "email cannot be blank.")
-    private String email;
+  @Email
+  @NotBlank(message = "email cannot be blank.")
+  private String email;
 }

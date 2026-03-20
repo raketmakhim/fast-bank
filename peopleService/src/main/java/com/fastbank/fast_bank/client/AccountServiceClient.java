@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "account-service", url = "http://localhost:8081")
 public interface AccountServiceClient {
 
-    @GetMapping("/api/accounts/personId}")
-    List<AccountResponse> getAccountsByPersonId(UUID personId);
+  @GetMapping("/api/accounts/personId}")
+  List<AccountResponse> getAccountsByPersonId(UUID personId);
 
-    @GetMapping("/api/accounts")
-    List<AccountResponse> getAllAccounts();
+  @GetMapping("/api/accounts")
+  List<AccountResponse> getAllAccounts();
 }

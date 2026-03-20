@@ -14,46 +14,46 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-    private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+  public AccountService(AccountRepository accountRepository) {
+    this.accountRepository = accountRepository;
+  }
 
-    public List<Account> getActiveAccounts(UUID personId) {
-        return accountRepository.findByPersonIdAndStatus(personId, AccountStatus.ACTIVE);
-    }
+  public List<Account> getActiveAccounts(UUID personId) {
+    return accountRepository.findByPersonIdAndStatus(personId, AccountStatus.ACTIVE);
+  }
 
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
-    }
+  public List<Account> getAllAccounts() {
+    return accountRepository.findAll();
+  }
 
-    public List<Account> getAllAccountsByPersonId(UUID personId) {
-        return accountRepository.findByPersonId(personId);
-    }
+  public List<Account> getAllAccountsByPersonId(UUID personId) {
+    return accountRepository.findByPersonId(personId);
+  }
 
-    public Account saveAccount(Account account) {
-        return accountRepository.save(account);
-    }
+  public Account saveAccount(Account account) {
+    return accountRepository.save(account);
+  }
 
-    public Account updateStatus(UUID accountId, AccountStatus status)
-            throws AccountNotFoundException {
-        Account account =
-                accountRepository
-                        .findById(accountId)
-                        .orElseThrow(() -> new AccountNotFoundException(accountId));
+  public Account updateStatus(UUID accountId, AccountStatus status)
+      throws AccountNotFoundException {
+    Account account =
+        accountRepository
+            .findById(accountId)
+            .orElseThrow(() -> new AccountNotFoundException(accountId));
 
-        account.setStatus(status);
-        return accountRepository.save(account);
-    }
+    account.setStatus(status);
+    return accountRepository.save(account);
+  }
 
-    public Account createAccountFromPerson(PersonRecord person) {
-        Account account = new Account();
-        account.setPersonId(person.personId());
-        account.setAccountType(AccountType.CHECKING);
-        account.setAccountNumber(AccountNumberGenerator.generate());
+  public Account createAccountFromPerson(PersonRecord person) {
+    Account account = new Account();
+    account.setPersonId(person.personId());
+    account.setAccountType(AccountType.CHECKING);
+    account.setAccountNumber(AccountNumberGenerator.generate());
 
-        accountRepository.save(account);
-        return account;
-    }
+    accountRepository.save(account);
+    return account;
+  }
 }

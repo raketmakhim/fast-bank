@@ -16,30 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 public class PersonController {
-    private final PersonService personService;
+  private final PersonService personService;
 
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+  public PersonController(PersonService personService) {
+    this.personService = personService;
+  }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello, FastBank is running!";
-    }
+  @GetMapping("/hello")
+  public String hello() {
+    return "Hello, FastBank is running!";
+  }
 
-    @PostMapping("/person")
-    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonRequest personRequest) {
-        log.info("Received person creation request: {}", personRequest);
-        Person person = personService.savePerson(personRequest);
-        log.info("Person created successfully: {}", person);
-        return ResponseEntity.ok("Person created: " + person.toString());
-    }
+  @PostMapping("/person")
+  public ResponseEntity<?> createPerson(@Valid @RequestBody PersonRequest personRequest) {
+    log.info("Received person creation request: {}", personRequest);
+    Person person = personService.savePerson(personRequest);
+    log.info("Person created successfully: {}", person);
+    return ResponseEntity.ok("Person created: " + person.toString());
+  }
 
-    @GetMapping("/people")
-    public ResponseEntity<List<PersonResponse>> getPeople() {
-        log.info("Received request to get all people");
-        List<PersonResponse> people = personService.getPeople();
-        log.info("Returning {} people", people.size());
-        return ResponseEntity.ok(people);
-    }
+  @GetMapping("/people")
+  public ResponseEntity<List<PersonResponse>> getPeople() {
+    log.info("Received request to get all people");
+    List<PersonResponse> people = personService.getPeople();
+    log.info("Returning {} people", people.size());
+    return ResponseEntity.ok(people);
+  }
 }
