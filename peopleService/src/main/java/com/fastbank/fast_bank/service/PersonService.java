@@ -8,7 +8,6 @@ import com.fastbank.fast_bank.model.entity.Person;
 import com.fastbank.fast_bank.utils.message_broker.MessageSender;
 import com.fastbank.fast_bank.repository.PersonRepository;
 import com.fastbank.fast_bank.utils.mapper.PersonMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class PersonService {
         this.accountServiceClient = accountServiceClient;
     }
 
-    public Person savePerson(PersonRequest request) throws JsonProcessingException {
+    public Person savePerson(PersonRequest request) {
         log.info("Saving person: {} {}", request.getFirstName(), request.getLastName());
         Person person = PersonMapper.personToEntity(request);
         log.info(String.valueOf(person.getPersonId()));

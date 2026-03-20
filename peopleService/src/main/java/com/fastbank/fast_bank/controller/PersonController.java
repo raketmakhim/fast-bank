@@ -4,7 +4,6 @@ import com.fastbank.fast_bank.model.dto.PersonRequest;
 import com.fastbank.fast_bank.model.dto.PersonResponse;
 import com.fastbank.fast_bank.model.entity.Person;
 import com.fastbank.fast_bank.service.PersonService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class PersonController {
     }
 
     @PostMapping("/person")
-    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonRequest personRequest) throws JsonProcessingException {
+    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonRequest personRequest) {
         log.info("Received person creation request: {}", personRequest);
         Person person = personService.savePerson(personRequest);
         log.info("Person created successfully: {}", person);
