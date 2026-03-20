@@ -1,4 +1,4 @@
-.PHONY: help install build test coverage quality clean run-account run-people full-build reports
+.PHONY: help install build test coverage quality clean run-account run-people full-build reports format
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -20,6 +20,9 @@ coverage: ## Run tests with coverage report for all services
 
 quality: ## Run quality checks for all services (Checkstyle, PMD, SpotBugs)
 	./gradlew qualityCheck
+
+format: ## Auto-fix imports, trailing whitespace and missing newlines
+	./gradlew spotlessApply
 
 clean: ## Clean build artifacts
 	./gradlew clean

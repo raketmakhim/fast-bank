@@ -1,12 +1,11 @@
 package com.fastbank.fast_bank.model.dto;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 class ErrorResponseTest {
 
@@ -16,7 +15,8 @@ class ErrorResponseTest {
     void intConstructor_shouldSetAllFields() {
         Instant before = Instant.now();
 
-        ErrorResponse response = new ErrorResponse(400, "Bad Request", "Invalid input", "/api/people");
+        ErrorResponse response =
+                new ErrorResponse(400, "Bad Request", "Invalid input", "/api/people");
 
         assertThat(response.getStatus()).isEqualTo(400);
         assertThat(response.getError()).isEqualTo("Bad Request");
@@ -31,7 +31,8 @@ class ErrorResponseTest {
 
     @Test
     void httpStatusConstructor_shouldDeriveStatusAndError() {
-        ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, "Person not found", "/api/people/123");
+        ErrorResponse response =
+                new ErrorResponse(HttpStatus.NOT_FOUND, "Person not found", "/api/people/123");
 
         assertThat(response.getStatus()).isEqualTo(404);
         assertThat(response.getError()).isEqualTo(HttpStatus.NOT_FOUND.toString());
@@ -52,7 +53,8 @@ class ErrorResponseTest {
     void httpStatusConstructor_shouldSetTimestampToNow() {
         Instant before = Instant.now();
 
-        ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "error", "/path");
+        ErrorResponse response =
+                new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "error", "/path");
 
         assertThat(response.getTimestamp()).isAfterOrEqualTo(before);
         assertThat(response.getTimestamp()).isBeforeOrEqualTo(Instant.now());
@@ -62,24 +64,29 @@ class ErrorResponseTest {
 
     @Test
     void fieldErrorsConstructor_shouldIncludeFieldErrors() {
-        List<ErrorResponse.FieldError> fieldErrors = List.of(
-                new ErrorResponse.FieldError("firstName", "cannot be blank"),
-                new ErrorResponse.FieldError("email", "must be a valid email")
-        );
+        List<ErrorResponse.FieldError> fieldErrors =
+                List.of(
+                        new ErrorResponse.FieldError("firstName", "cannot be blank"),
+                        new ErrorResponse.FieldError("email", "must be a valid email"));
 
-        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "Validation failed", "/api/people", fieldErrors);
+        ErrorResponse response =
+                new ErrorResponse(
+                        HttpStatus.BAD_REQUEST, "Validation failed", "/api/people", fieldErrors);
 
         assertThat(response.getStatus()).isEqualTo(400);
         assertThat(response.getFieldErrors()).hasSize(2);
         assertThat(response.getFieldErrors().get(0).getField()).isEqualTo("firstName");
         assertThat(response.getFieldErrors().get(0).getMessage()).isEqualTo("cannot be blank");
         assertThat(response.getFieldErrors().get(1).getField()).isEqualTo("email");
-        assertThat(response.getFieldErrors().get(1).getMessage()).isEqualTo("must be a valid email");
+        assertThat(response.getFieldErrors().get(1).getMessage())
+                .isEqualTo("must be a valid email");
     }
 
     @Test
     void fieldErrorsConstructor_withEmptyList_shouldSetEmptyFieldErrors() {
-        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "Validation failed", "/api/people", List.of());
+        ErrorResponse response =
+                new ErrorResponse(
+                        HttpStatus.BAD_REQUEST, "Validation failed", "/api/people", List.of());
 
         assertThat(response.getFieldErrors()).isEmpty();
     }
@@ -88,7 +95,8 @@ class ErrorResponseTest {
 
     @Test
     void fieldError_shouldExposeFieldAndMessage() {
-        ErrorResponse.FieldError fieldError = new ErrorResponse.FieldError("lastName", "cannot be blank");
+        ErrorResponse.FieldError fieldError =
+                new ErrorResponse.FieldError("lastName", "cannot be blank");
 
         assertThat(fieldError.getField()).isEqualTo("lastName");
         assertThat(fieldError.getMessage()).isEqualTo("cannot be blank");

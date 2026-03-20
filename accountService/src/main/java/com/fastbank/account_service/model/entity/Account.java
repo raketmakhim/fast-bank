@@ -2,14 +2,22 @@ package com.fastbank.account_service.model.entity;
 
 import com.fastbank.account_service.model.enums.AccountStatus;
 import com.fastbank.account_service.model.enums.AccountType;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "accounts")
@@ -23,7 +31,7 @@ public class Account {
     private UUID id;
 
     @Column(name = "person_id", nullable = false)
-    private UUID personId;  // Logical foreign key
+    private UUID personId; // Logical foreign key
 
     @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
@@ -52,5 +60,4 @@ public class Account {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

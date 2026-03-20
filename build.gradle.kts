@@ -6,6 +6,7 @@ plugins {
     id("org.springframework.boot") version "3.5.7" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     id("com.github.spotbugs") version "6.4.8" apply false
+    id("com.diffplug.spotless") version "7.0.2" apply false
 }
 
 subprojects {
@@ -16,6 +17,7 @@ subprojects {
     apply(plugin = "pmd")
     apply(plugin = "com.github.spotbugs")
     apply(plugin = "jacoco")
+    apply(plugin = "com.diffplug.spotless")
 
     group = "com.fastbank"
     version = "0.0.1-SNAPSHOT"
@@ -134,6 +136,16 @@ subprojects {
 
     tasks.named("check") {
         dependsOn(tasks.named("jacocoVerify"))
+    }
+
+    // Spotless Configuration
+    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+        java {
+            googleJavaFormat().aosp()
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
     }
 
     // Custom task aliases

@@ -1,9 +1,8 @@
 package com.fastbank.fast_bank.model.entity;
 
-
 import jakarta.persistence.*;
-import lombok.*;
 import java.util.UUID;
+import lombok.*;
 
 @Setter
 @Entity

@@ -1,12 +1,11 @@
 package com.fastbank.fast_bank.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.http.HttpStatus;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 @Setter
 @Getter
@@ -37,7 +36,8 @@ public class ErrorResponse {
         this.path = path;
     }
 
-    public ErrorResponse(HttpStatus status, String message, String path, List<FieldError> fieldErrors) {
+    public ErrorResponse(
+            HttpStatus status, String message, String path, List<FieldError> fieldErrors) {
         this(status, message, path);
         this.fieldErrors = fieldErrors;
     }
@@ -51,6 +51,5 @@ public class ErrorResponse {
             this.field = field;
             this.message = message;
         }
-
     }
 }

@@ -1,5 +1,10 @@
 package com.fastbank.fast_bank.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import com.fastbank.fast_bank.client.AccountServiceClient;
 import com.fastbank.fast_bank.model.dto.AccountResponse;
 import com.fastbank.fast_bank.model.dto.PersonRequest;
@@ -7,36 +12,26 @@ import com.fastbank.fast_bank.model.dto.PersonResponse;
 import com.fastbank.fast_bank.model.entity.Person;
 import com.fastbank.fast_bank.repository.PersonRepository;
 import com.fastbank.fast_bank.utils.message_broker.MessageSender;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
 
-    @Mock
-    private PersonRepository personRepository;
+    @Mock private PersonRepository personRepository;
 
-    @Mock
-    private MessageSender messageSender;
+    @Mock private MessageSender messageSender;
 
-    @Mock
-    private AccountServiceClient accountServiceClient;
+    @Mock private AccountServiceClient accountServiceClient;
 
-    @InjectMocks
-    private PersonService personService;
+    @InjectMocks private PersonService personService;
 
     // ── savePerson ────────────────────────────────────────────────────────────
 
@@ -58,7 +53,9 @@ class PersonServiceTest {
     @Test
     void savePerson_whenMessageSenderThrows_shouldPropagateAndNotSave() {
         PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
-        doThrow(new RuntimeException("broker unavailable")).when(messageSender).sendMessage(any(Person.class));
+        doThrow(new RuntimeException("broker unavailable"))
+                .when(messageSender)
+                .sendMessage(any(Person.class));
 
         assertThatThrownBy(() -> personService.savePerson(request))
                 .isInstanceOf(RuntimeException.class);
@@ -105,7 +102,8 @@ class PersonServiceTest {
     void getPeople_whenAccountServiceFails_shouldReturnPeopleWithEmptyAccounts() {
         Person person = buildPerson(UUID.randomUUID(), "Jane", "Smith", "jane@example.com");
         when(personRepository.findAll()).thenReturn(List.of(person));
-        when(accountServiceClient.getAllAccounts()).thenThrow(new RuntimeException("service unavailable"));
+        when(accountServiceClient.getAllAccounts())
+                .thenThrow(new RuntimeException("service unavailable"));
 
         List<PersonResponse> result = personService.getPeople();
 
@@ -151,7 +149,6 @@ class PersonServiceTest {
                 BigDecimal.TEN,
                 "ACTIVE",
                 LocalDateTime.now(),
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
     }
 }
