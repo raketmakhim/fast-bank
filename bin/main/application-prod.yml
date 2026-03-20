@@ -1,0 +1,15 @@
+spring:
+  devtools:
+    restart:
+      enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.template.app: INFO
+    org.springframework.web: WARN
+
+management:
+  endpoint:
+    health:
+      show-details: never
