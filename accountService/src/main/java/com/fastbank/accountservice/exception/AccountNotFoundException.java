@@ -8,6 +8,8 @@ import java.util.UUID;
  */
 public class AccountNotFoundException extends Exception {
 
+  private static final long serialVersionUID = 1L;
+
   /**
    * Constructs an {@code AccountNotFoundException} for the given account ID.
    *

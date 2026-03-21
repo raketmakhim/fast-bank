@@ -33,7 +33,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(PersonController.class)
+@SuppressWarnings({"PMD.ExcessiveImports", "PMD.UnitTestShouldIncludeAssert"})
 class PersonControllerTest {
+
+  private static final String PERSON_ENDPOINT = "/person";
 
   @Autowired private MockMvc mockMvc;
 
@@ -47,7 +50,7 @@ class PersonControllerTest {
   // ── GET /hello ────────────────────────────────────────────────────────────
 
   @Test
-  void hello_shouldReturn200WithMessage() throws Exception {
+  void helloShouldReturn200WithMessage() throws Exception {
     mockMvc
         .perform(get("/hello"))
         .andExpect(status().isOk())
@@ -57,7 +60,7 @@ class PersonControllerTest {
   // ── GET /people ───────────────────────────────────────────────────────────
 
   @Test
-  void getPeople_shouldReturn200WithList() throws Exception {
+  void retrievePeopleReturns200WithList() throws Exception {
     UUID personId = UUID.randomUUID();
     AccountResponse account =
         new AccountResponse(
@@ -84,7 +87,7 @@ class PersonControllerTest {
   }
 
   @Test
-  void getPeople_whenEmpty_shouldReturn200WithEmptyList() throws Exception {
+  void retrievePeopleWhenEmptyReturns200EmptyList() throws Exception {
     when(personService.getPeople()).thenReturn(List.of());
 
     mockMvc.perform(get("/people")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(0)));
@@ -93,7 +96,7 @@ class PersonControllerTest {
   // ── POST /person ──────────────────────────────────────────────────────────
 
   @Test
-  void createPerson_withValidRequest_shouldReturn200() throws Exception {
+  void createPersonWithValidRequestReturns200() throws Exception {
     Person saved =
         Person.builder()
             .personId(UUID.randomUUID())
@@ -105,7 +108,7 @@ class PersonControllerTest {
 
     mockMvc
         .perform(
-            post("/person")
+            post(PERSON_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -120,10 +123,10 @@ class PersonControllerTest {
   }
 
   @Test
-  void createPerson_withBlankFirstName_shouldReturn400WithFieldError() throws Exception {
+  void createPersonWithBlankFirstNameReturns400WithFieldError() throws Exception {
     mockMvc
         .perform(
-            post("/person")
+            post(PERSON_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -140,10 +143,10 @@ class PersonControllerTest {
   }
 
   @Test
-  void createPerson_withBlankLastName_shouldReturn400WithFieldError() throws Exception {
+  void createPersonWithBlankLastNameReturns400WithFieldError() throws Exception {
     mockMvc
         .perform(
-            post("/person")
+            post(PERSON_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -160,10 +163,10 @@ class PersonControllerTest {
   }
 
   @Test
-  void createPerson_withInvalidEmail_shouldReturn400WithFieldError() throws Exception {
+  void createPersonWithInvalidEmailReturns400WithFieldError() throws Exception {
     mockMvc
         .perform(
-            post("/person")
+            post(PERSON_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -180,9 +183,9 @@ class PersonControllerTest {
   }
 
   @Test
-  void createPerson_withAllFieldsMissing_shouldReturn400WithMultipleFieldErrors() throws Exception {
+  void createPersonWithAllFieldsMissingReturns400() throws Exception {
     mockMvc
-        .perform(post("/person").contentType(MediaType.APPLICATION_JSON).content("{}"))
+        .perform(post(PERSON_ENDPOINT).contentType(MediaType.APPLICATION_JSON).content("{}"))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.fieldErrors", hasSize(greaterThanOrEqualTo(3))));
 

@@ -34,23 +34,24 @@ class MessageSenderTest {
   // ── sendMessage ───────────────────────────────────────────────────────────
 
   @Test
-  void sendMessage_shouldPublishToCorrectExchangeAndRoutingKey() {
+  void sendMessagePublishesToCorrectExchangeAndKey() {
     messageSender.sendMessage(person);
 
     verify(rabbitTemplate).convertAndSend(eq("people-event"), eq("people.created"), eq(person));
   }
 
   @Test
-  void sendMessage_shouldPublishExactPersonObject() {
+  @SuppressWarnings("PMD.UnitTestContainsTooManyAsserts")
+  void sendMessagePublishesExactPersonObject() {
     messageSender.sendMessage(person);
 
     verify(rabbitTemplate)
-        .convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
+        .convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, person);
     verifyNoMoreInteractions(rabbitTemplate);
   }
 
   @Test
-  void sendMessage_whenRabbitTemplateFails_shouldPropagateException() {
+  void sendMessageWhenBrokerFailsPropagatesException() {
     doThrow(new RuntimeException("broker unavailable"))
         .when(rabbitTemplate)
         .convertAndSend(any(), any(), any(Object.class));

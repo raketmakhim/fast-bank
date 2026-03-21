@@ -37,7 +37,7 @@ public class MessageListener {
    *
    * @param message the raw JSON string received from the queue
    */
-  @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+  @RabbitListener(queues = RabbitMqConfig.QUEUE_NAME)
   public void receiveMessage(String message) {
     log.info("Received: {}", message);
 

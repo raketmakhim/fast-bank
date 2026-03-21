@@ -23,7 +23,7 @@ public class MessageSender {
    * @param person the person entity to send as a message payload
    */
   public void sendMessage(Person person) {
-    rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
+    rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, person);
     log.info("Sent: {}", person);
   }
 }

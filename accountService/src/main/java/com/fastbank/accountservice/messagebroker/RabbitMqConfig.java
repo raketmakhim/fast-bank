@@ -5,13 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * RabbitMQ configuration for the FastBank Account Service.
+ * RabbitMq configuration for the FastBank Account Service.
  *
- * <p>Declares the durable queue used to consume person creation events published by the
- * People Service.
+ * <p>Declares the durable queue used to consume person creation events published by the People
+ * Service.
  */
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMqConfig {
 
   /** Name of the durable queue from which person creation events are consumed. */
   public static final String QUEUE_NAME = "peopleQueue";

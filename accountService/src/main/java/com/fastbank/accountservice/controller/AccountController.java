@@ -7,13 +7,20 @@ import com.fastbank.accountservice.service.AccountService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing {@link Account} resources.
  *
- * <p>Exposes endpoints under {@code /api/accounts} for creating, retrieving, and updating
- * accounts in the FastBank Account Service.
+ * <p>Exposes endpoints under {@code /api/accounts} for creating, retrieving, and updating accounts
+ * in the FastBank Account Service.
  */
 @RestController
 @RequestMapping("/api/accounts")
@@ -34,15 +41,14 @@ public class AccountController {
    * Updates the status of an existing account.
    *
    * @param accountId the UUID of the account to update
-   * @param status    the new {@link AccountStatus} to apply
+   * @param status the new {@link AccountStatus} to apply
    * @return a {@link ResponseEntity} containing the updated {@link Account}
    * @throws AccountNotFoundException if no account exists with the given ID
    */
   @PatchMapping("/{accountId}/status")
   public ResponseEntity<Account> updateAccountStatus(
-      @PathVariable UUID accountId,
-      @RequestParam AccountStatus status // Spring automatically converts from string
-      ) throws AccountNotFoundException {
+      @PathVariable UUID accountId, @RequestParam AccountStatus status)
+      throws AccountNotFoundException {
     Account account = accountService.updateStatus(accountId, status);
     return ResponseEntity.ok(account);
   }

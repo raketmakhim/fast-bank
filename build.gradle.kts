@@ -74,6 +74,7 @@ subprojects {
     }
 
     tasks.withType<com.github.spotbugs.snom.SpotBugsTask>().configureEach {
+        excludeFilter.set(file("${rootDir}/config/spotbugs/exclude.xml"))
         reports {
             create("html") {
                 required.set(true)

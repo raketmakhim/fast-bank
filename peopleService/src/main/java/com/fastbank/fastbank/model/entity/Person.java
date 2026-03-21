@@ -1,14 +1,22 @@
 package com.fastbank.fastbank.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.UUID;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * JPA entity representing a person stored in the {@code people} table.
  *
- * <p>Each person has a UUID primary key and holds basic identity information
- * (first name, last name, email).
+ * <p>Each person has a UUID primary key and holds basic identity information (first name, last
+ * name, email).
  */
 @Setter
 @Entity

@@ -21,7 +21,7 @@ public class AccountRegistrationService {
    * Constructs an {@code AccountRegistrationService} with the given dependencies.
    *
    * @param accountService the service used to create and persist the account
-   * @param emailService   the service used to send the account creation email
+   * @param emailService the service used to send the account creation email
    */
   public AccountRegistrationService(AccountService accountService, EmailService emailService) {
     this.accountService = accountService;

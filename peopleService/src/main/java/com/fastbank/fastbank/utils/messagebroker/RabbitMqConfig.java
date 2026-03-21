@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * RabbitMQ configuration for the FastBank People Service.
+ * RabbitMq configuration for the FastBank People Service.
  *
- * <p>Declares the queue, topic exchange, binding, JSON message converter, and RabbitTemplate
- * beans used for publishing person creation events.
+ * <p>Declares the queue, topic exchange, binding, JSON message converter, and RabbitTemplate beans
+ * used for publishing person creation events.
  */
 @Configuration
-public class RabbitMQConfig {
+public class RabbitMqConfig {
 
   /** Name of the durable queue that receives person events. */
   public static final String QUEUE_NAME = "peopleQueue";
@@ -51,7 +51,7 @@ public class RabbitMQConfig {
   /**
    * Binds the people queue to the exchange using the routing key {@value #ROUTING_KEY}.
    *
-   * @param queue    the queue to bind
+   * @param queue the queue to bind
    * @param exchange the exchange to bind to
    * @return the configured {@link Binding}
    */

@@ -2,9 +2,7 @@ package com.fastbank.accountservice.utils;
 
 import java.util.UUID;
 
-/**
- * Utility class for generating unique account numbers.
- */
+/** Utility class for generating unique account numbers. */
 public class AccountNumberGenerator {
 
   /**

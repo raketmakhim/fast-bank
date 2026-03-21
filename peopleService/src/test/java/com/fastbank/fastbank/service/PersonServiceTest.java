@@ -27,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("PMD.UnitTestContainsTooManyAsserts")
 class PersonServiceTest {
 
   @Mock private PersonRepository personRepository;
@@ -37,26 +38,31 @@ class PersonServiceTest {
 
   @InjectMocks private PersonService personService;
 
+  private static final String FIRST_NAME = "John";
+  private static final String LAST_NAME = "Doe";
+  private static final String EMAIL = "john@example.com";
+  private static final String JANE = "Jane";
+
   // ── savePerson ────────────────────────────────────────────────────────────
 
   @Test
-  void savePerson_shouldMapRequestSendMessageAndSave() {
-    PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
-    Person saved = buildPerson(UUID.randomUUID(), "John", "Doe", "john@example.com");
+  void savePersonMapsAndSends() {
+    PersonRequest request = buildMockRequest(FIRST_NAME, LAST_NAME, EMAIL);
+    Person saved = buildPerson(UUID.randomUUID(), FIRST_NAME, LAST_NAME, EMAIL);
     when(personRepository.save(any(Person.class))).thenReturn(saved);
 
     Person result = personService.savePerson(request);
 
     verify(messageSender).sendMessage(any(Person.class));
     verify(personRepository).save(any(Person.class));
-    assertThat(result.getFirstName()).isEqualTo("John");
-    assertThat(result.getLastName()).isEqualTo("Doe");
-    assertThat(result.getEmail()).isEqualTo("john@example.com");
+    assertThat(result.getFirstName()).isEqualTo(FIRST_NAME);
+    assertThat(result.getLastName()).isEqualTo(LAST_NAME);
+    assertThat(result.getEmail()).isEqualTo(EMAIL);
   }
 
   @Test
-  void savePerson_whenMessageSenderThrows_shouldPropagateAndNotSave() {
-    PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
+  void savePersonWhenBrokerFailsPropagatesException() {
+    PersonRequest request = buildMockRequest(FIRST_NAME, LAST_NAME, EMAIL);
     doThrow(new RuntimeException("broker unavailable"))
         .when(messageSender)
         .sendMessage(any(Person.class));
@@ -70,9 +76,9 @@ class PersonServiceTest {
   // ── getPeople ─────────────────────────────────────────────────────────────
 
   @Test
-  void getPeople_shouldReturnPeopleWithTheirAccounts() {
+  void retrievePeopleReturnsWithMatchingAccounts() {
     UUID personId = UUID.randomUUID();
-    Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
+    Person person = buildPerson(personId, JANE, "Smith", "jane@example.com");
     AccountResponse account = buildAccount(personId);
 
     when(personRepository.findAll()).thenReturn(List.of(person));
@@ -82,15 +88,15 @@ class PersonServiceTest {
 
     assertThat(result).hasSize(1);
     assertThat(result.get(0).personId()).isEqualTo(personId);
-    assertThat(result.get(0).firstName()).isEqualTo("Jane");
+    assertThat(result.get(0).firstName()).isEqualTo(JANE);
     assertThat(result.get(0).accounts()).hasSize(1);
   }
 
   @Test
-  void getPeople_shouldNotIncludeAccountsBelongingToOtherPeople() {
+  void retrievePeopleExcludesOtherPeoplesAccounts() {
     UUID personId = UUID.randomUUID();
     UUID otherPersonId = UUID.randomUUID();
-    Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
+    Person person = buildPerson(personId, JANE, "Smith", "jane@example.com");
     AccountResponse otherAccount = buildAccount(otherPersonId);
 
     when(personRepository.findAll()).thenReturn(List.of(person));
@@ -103,8 +109,8 @@ class PersonServiceTest {
   }
 
   @Test
-  void getPeople_whenAccountServiceFails_shouldReturnPeopleWithEmptyAccounts() {
-    Person person = buildPerson(UUID.randomUUID(), "Jane", "Smith", "jane@example.com");
+  void retrievePeopleWhenAccountServiceFailsReturnsEmptyAccounts() {
+    Person person = buildPerson(UUID.randomUUID(), JANE, "Smith", "jane@example.com");
     when(personRepository.findAll()).thenReturn(List.of(person));
     when(accountServiceClient.getAllAccounts())
         .thenThrow(new RuntimeException("service unavailable"));
@@ -116,7 +122,7 @@ class PersonServiceTest {
   }
 
   @Test
-  void getPeople_whenNoPeopleExist_shouldReturnEmptyList() {
+  void retrievePeopleWhenNoneExistReturnsEmptyList() {
     when(personRepository.findAll()).thenReturn(List.of());
     when(accountServiceClient.getAllAccounts()).thenReturn(List.of());
 

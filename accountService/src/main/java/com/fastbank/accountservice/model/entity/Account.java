@@ -22,9 +22,9 @@ import lombok.ToString;
 /**
  * JPA entity representing a bank account stored in the {@code accounts} table.
  *
- * <p>Each account is associated with a person via a logical foreign key ({@code personId}),
- * has a unique account number, a type, a balance, and a lifecycle status.
- * Timestamps are managed automatically via JPA lifecycle callbacks.
+ * <p>Each account is associated with a person via a logical foreign key ({@code personId}), has a
+ * unique account number, a type, a balance, and a lifecycle status. Timestamps are managed
+ * automatically via JPA lifecycle callbacks.
  */
 @Entity
 @Table(name = "accounts")
@@ -74,9 +74,7 @@ public class Account {
     updatedAt = LocalDateTime.now();
   }
 
-  /**
-   * Updates {@code updatedAt} to the current time before each update.
-   */
+  /** Updates {@code updatedAt} to the current time before each update. */
   @PreUpdate
   protected void onUpdate() {
     updatedAt = LocalDateTime.now();

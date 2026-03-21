@@ -1,8 +1,6 @@
 package com.fastbank.accountservice.model.enums;
 
-/**
- * Represents the lifecycle status of a bank account.
- */
+/** Represents the lifecycle status of a bank account. */
 public enum AccountStatus {
   /** The account is open and fully operational. */
   ACTIVE,
