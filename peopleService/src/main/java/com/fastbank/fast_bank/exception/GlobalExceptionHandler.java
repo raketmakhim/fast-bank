@@ -2,16 +2,13 @@ package com.fastbank.fast_bank.exception;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Global exception handler for the FastBank People Service.
+ *
+ * <p>Centralises exception handling across all controllers using {@link RestControllerAdvice}.
+ * Exception handler methods should be added here to return consistent error responses.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  //    @ExceptionHandler(Exception.class)
-  //    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
-  //        // Fallback for uncaught exceptions
-  //        ErrorResponse e = new ErrorResponse();
-  //        e.setMessage("An unexpected error occurred: " + ex.getMessage());
-  //        e.setErrorCode("INTERNAL_SERVER_ERROR");
-  //        e.setTimestamp(java.time.LocalDateTime.now());
-  //        return ResponseEntity.internalServerError().body(e);
-  //    }
 }

@@ -1,7 +1,11 @@
 package com.fastbank.fast_bank.utils.message_broker;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.fastbank.fast_bank.model.entity.Person;
 import java.util.UUID;
