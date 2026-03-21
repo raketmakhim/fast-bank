@@ -1,10 +1,19 @@
 package com.fastbank.fast_bank.controller;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastbank.fast_bank.client.AccountServiceClient;
 import com.fastbank.fast_bank.model.dto.AccountResponse;
@@ -100,12 +109,12 @@ class PersonControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                                {
-                                  "firstName": "John",
-                                  "lastName": "Doe",
-                                  "email": "john@example.com"
-                                }
-                                """))
+                    {
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "email": "john@example.com"
+                    }
+                    """))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("Person created:")));
   }
@@ -118,12 +127,12 @@ class PersonControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                                {
-                                  "firstName": "",
-                                  "lastName": "Doe",
-                                  "email": "john@example.com"
-                                }
-                                """))
+                    {
+                      "firstName": "",
+                      "lastName": "Doe",
+                      "email": "john@example.com"
+                    }
+                    """))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("firstName")));
 
@@ -138,12 +147,12 @@ class PersonControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                                {
-                                  "firstName": "John",
-                                  "lastName": "",
-                                  "email": "john@example.com"
-                                }
-                                """))
+                    {
+                      "firstName": "John",
+                      "lastName": "",
+                      "email": "john@example.com"
+                    }
+                    """))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("lastName")));
 
@@ -158,12 +167,12 @@ class PersonControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-                                {
-                                  "firstName": "John",
-                                  "lastName": "Doe",
-                                  "email": "not-an-email"
-                                }
-                                """))
+                    {
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "email": "not-an-email"
+                    }
+                    """))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.fieldErrors[*].field", hasItem("email")));
 

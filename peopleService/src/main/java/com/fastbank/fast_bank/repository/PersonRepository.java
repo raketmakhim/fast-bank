@@ -4,7 +4,11 @@ import com.fastbank.fast_bank.model.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Spring Data JPA repository for {@link Person} entities.
+ *
+ * <p>Provides standard CRUD operations ({@code save}, {@code findById}, {@code findAll},
+ * {@code delete}, etc.) inherited from {@link JpaRepository}.
+ */
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long> {
-  // You get save(), findById(), findAll(), delete(), etc. for free
-}
+public interface PersonRepository extends JpaRepository<Person, Long> {}

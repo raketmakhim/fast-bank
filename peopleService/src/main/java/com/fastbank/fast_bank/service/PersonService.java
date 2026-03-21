@@ -15,6 +15,12 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service layer for managing {@link Person} business logic.
+ *
+ * <p>Handles person creation (including publishing a message via RabbitMQ) and retrieval of people
+ * enriched with their associated accounts fetched from the Account Service.
+ */
 @Service
 @Slf4j
 public class PersonService {
@@ -23,6 +29,13 @@ public class PersonService {
   private final MessageSender messageSender;
   private final AccountServiceClient accountServiceClient;
 
+  /**
+   * Constructs a {@code PersonService} with its required dependencies.
+   *
+   * @param personRepository     the repository for persisting {@link Person} entities
+   * @param messageSender        the RabbitMQ message sender for publishing person events
+   * @param accountServiceClient the Feign client for retrieving account data
+   */
   public PersonService(
       PersonRepository personRepository,
       MessageSender messageSender,
@@ -32,6 +45,12 @@ public class PersonService {
     this.accountServiceClient = accountServiceClient;
   }
 
+  /**
+   * Persists a new person and publishes a creation event to RabbitMQ.
+   *
+   * @param request the validated request containing the person's details
+   * @return the saved {@link Person} entity
+   */
   public Person savePerson(PersonRequest request) {
     log.info("Saving person: {} {}", request.getFirstName(), request.getLastName());
     Person person = PersonMapper.personToEntity(request);
@@ -40,6 +59,13 @@ public class PersonService {
     return personRepository.save(person);
   }
 
+  /**
+   * Retrieves all people, each enriched with their associated accounts.
+   *
+   * <p>If the Account Service is unavailable, accounts default to an empty list.
+   *
+   * @return a list of {@link PersonResponse} objects with account data included
+   */
   public List<PersonResponse> getPeople() {
     log.info("Fetching all people from the database");
 
@@ -68,6 +94,11 @@ public class PersonService {
     return response;
   }
 
+  /**
+   * Attempts to fetch all accounts from the Account Service, returning an empty list on failure.
+   *
+   * @return a list of {@link AccountResponse} objects, or an empty list if the service is down
+   */
   private List<AccountResponse> getAccountsOrEmpty() {
     try {
       return accountServiceClient.getAllAccounts();
