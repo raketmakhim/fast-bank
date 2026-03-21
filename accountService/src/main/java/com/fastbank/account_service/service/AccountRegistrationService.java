@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class AccountRegistrationService {
-    private final AccountService accountService;
-    private final EmailService emailService;
+  private final AccountService accountService;
+  private final EmailService emailService;
 
-    public AccountRegistrationService(AccountService accountService, EmailService emailService) {
-        this.accountService = accountService;
-        this.emailService = emailService;
-    }
+  public AccountRegistrationService(AccountService accountService, EmailService emailService) {
+    this.accountService = accountService;
+    this.emailService = emailService;
+  }
 
-    public void registerAccount(PersonRecord person) {
-        Account acc = accountService.createAccountFromPerson(person);
-        log.info("Account created: {}", acc);
-    }
+  public void registerAccount(PersonRecord person) {
+    Account acc = accountService.createAccountFromPerson(person);
+    log.info("Account created: {}", acc);
+  }
 }

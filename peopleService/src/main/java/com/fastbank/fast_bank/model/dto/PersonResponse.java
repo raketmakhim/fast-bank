@@ -4,4 +4,4 @@ import java.util.List;
 import java.util.UUID;
 
 public record PersonResponse(
-        UUID personId, String firstName, String lastName, String email, List<?> accounts) {}
+    UUID personId, String firstName, String lastName, String email, List<?> accounts) {}

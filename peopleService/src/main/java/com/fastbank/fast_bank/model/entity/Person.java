@@ -14,16 +14,16 @@ import lombok.*;
 @Getter
 public class Person {
 
-    @Id
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID personId;
+  @Id
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID personId;
 
-    @Column(name = "firstname", length = 50)
-    private String firstName;
+  @Column(name = "firstname", length = 50)
+  private String firstName;
 
-    @Column(name = "lastname", length = 50)
-    private String lastName;
+  @Column(name = "lastname", length = 50)
+  private String lastName;
 
-    @Column(name = "email", length = 100, unique = false)
-    private String email;
+  @Column(name = "email", length = 100, unique = false)
+  private String email;
 }

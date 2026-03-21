@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    // You get save(), findById(), findAll(), delete(), etc. for free
+  // You get save(), findById(), findAll(), delete(), etc. for free
 }

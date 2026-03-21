@@ -15,44 +15,44 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 @ExtendWith(MockitoExtension.class)
 class MessageSenderTest {
 
-    @Mock private RabbitTemplate rabbitTemplate;
+  @Mock private RabbitTemplate rabbitTemplate;
 
-    @InjectMocks private MessageSender messageSender;
+  @InjectMocks private MessageSender messageSender;
 
-    private final Person person =
-            Person.builder()
-                    .personId(UUID.randomUUID())
-                    .firstName("John")
-                    .lastName("Doe")
-                    .email("john@example.com")
-                    .build();
+  private final Person person =
+      Person.builder()
+          .personId(UUID.randomUUID())
+          .firstName("John")
+          .lastName("Doe")
+          .email("john@example.com")
+          .build();
 
-    // ── sendMessage ───────────────────────────────────────────────────────────
+  // ── sendMessage ───────────────────────────────────────────────────────────
 
-    @Test
-    void sendMessage_shouldPublishToCorrectExchangeAndRoutingKey() {
-        messageSender.sendMessage(person);
+  @Test
+  void sendMessage_shouldPublishToCorrectExchangeAndRoutingKey() {
+    messageSender.sendMessage(person);
 
-        verify(rabbitTemplate).convertAndSend(eq("people-event"), eq("people.created"), eq(person));
-    }
+    verify(rabbitTemplate).convertAndSend(eq("people-event"), eq("people.created"), eq(person));
+  }
 
-    @Test
-    void sendMessage_shouldPublishExactPersonObject() {
-        messageSender.sendMessage(person);
+  @Test
+  void sendMessage_shouldPublishExactPersonObject() {
+    messageSender.sendMessage(person);
 
-        verify(rabbitTemplate)
-                .convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
-        verifyNoMoreInteractions(rabbitTemplate);
-    }
+    verify(rabbitTemplate)
+        .convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, person);
+    verifyNoMoreInteractions(rabbitTemplate);
+  }
 
-    @Test
-    void sendMessage_whenRabbitTemplateFails_shouldPropagateException() {
-        doThrow(new RuntimeException("broker unavailable"))
-                .when(rabbitTemplate)
-                .convertAndSend(any(), any(), any(Object.class));
+  @Test
+  void sendMessage_whenRabbitTemplateFails_shouldPropagateException() {
+    doThrow(new RuntimeException("broker unavailable"))
+        .when(rabbitTemplate)
+        .convertAndSend(any(), any(), any(Object.class));
 
-        assertThatThrownBy(() -> messageSender.sendMessage(person))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("broker unavailable");
-    }
+    assertThatThrownBy(() -> messageSender.sendMessage(person))
+        .isInstanceOf(RuntimeException.class)
+        .hasMessage("broker unavailable");
+  }
 }

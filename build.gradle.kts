@@ -48,7 +48,10 @@ subprojects {
     // Checkstyle Configuration
     configure<CheckstyleExtension> {
         toolVersion = "13.+"
-        configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+        config = resources.text.fromArchiveEntry(
+            files(configurations.named("checkstyle").map { cfg -> cfg.find { f -> f.name.startsWith("checkstyle-") } }),
+            "google_checks.xml"
+        )
         isIgnoreFailures = false
         maxWarnings = 0
     }
@@ -141,7 +144,7 @@ subprojects {
     // Spotless Configuration
     configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         java {
-            googleJavaFormat().aosp()
+            googleJavaFormat()
             removeUnusedImports()
             trimTrailingWhitespace()
             endWithNewline()

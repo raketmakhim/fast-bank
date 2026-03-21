@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, UUID> {
 
-    List<Account> findByStatus(AccountStatus status);
+  List<Account> findByStatus(AccountStatus status);
 
-    List<Account> findByPersonIdAndStatus(UUID personId, AccountStatus status);
+  List<Account> findByPersonIdAndStatus(UUID personId, AccountStatus status);
 
-    List<Account> findByPersonId(UUID personId);
+  List<Account> findByPersonId(UUID personId);
 
-    @Query("SELECT a FROM Account a WHERE a.personId = :personId AND a.status = :status")
-    List<Account> findActiveAccountsForPerson(
-            @Param("personId") UUID personId, @Param("status") AccountStatus status);
+  @Query("SELECT a FROM Account a WHERE a.personId = :personId AND a.status = :status")
+  List<Account> findActiveAccountsForPerson(
+      @Param("personId") UUID personId, @Param("status") AccountStatus status);
 }

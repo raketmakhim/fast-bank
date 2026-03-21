@@ -13,34 +13,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "peopleQueue";
-    public static final String EXCHANGE_NAME = "people-event";
-    public static final String ROUTING_KEY = "people.created";
+  public static final String QUEUE_NAME = "peopleQueue";
+  public static final String EXCHANGE_NAME = "people-event";
+  public static final String ROUTING_KEY = "people.created";
 
-    @Bean
-    public Queue peopleQueue() {
-        return new Queue(QUEUE_NAME, true);
-    }
+  @Bean
+  public Queue peopleQueue() {
+    return new Queue(QUEUE_NAME, true);
+  }
 
-    @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE_NAME);
-    }
+  @Bean
+  public TopicExchange exchange() {
+    return new TopicExchange(EXCHANGE_NAME);
+  }
 
-    @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
-    }
+  @Bean
+  public Binding binding(Queue queue, TopicExchange exchange) {
+    return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+  }
 
-    @Bean
-    public Jackson2JsonMessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+  @Bean
+  public Jackson2JsonMessageConverter messageConverter() {
+    return new Jackson2JsonMessageConverter();
+  }
 
-    @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory);
-        template.setMessageConverter(messageConverter());
-        return template;
-    }
+  @Bean
+  public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    RabbitTemplate template = new RabbitTemplate(connectionFactory);
+    template.setMessageConverter(messageConverter());
+    return template;
+  }
 }

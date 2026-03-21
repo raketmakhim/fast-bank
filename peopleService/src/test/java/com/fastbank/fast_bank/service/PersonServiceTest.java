@@ -25,130 +25,130 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
 
-    @Mock private PersonRepository personRepository;
+  @Mock private PersonRepository personRepository;
 
-    @Mock private MessageSender messageSender;
+  @Mock private MessageSender messageSender;
 
-    @Mock private AccountServiceClient accountServiceClient;
+  @Mock private AccountServiceClient accountServiceClient;
 
-    @InjectMocks private PersonService personService;
+  @InjectMocks private PersonService personService;
 
-    // ── savePerson ────────────────────────────────────────────────────────────
+  // ── savePerson ────────────────────────────────────────────────────────────
 
-    @Test
-    void savePerson_shouldMapRequestSendMessageAndSave() {
-        PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
-        Person saved = buildPerson(UUID.randomUUID(), "John", "Doe", "john@example.com");
-        when(personRepository.save(any(Person.class))).thenReturn(saved);
+  @Test
+  void savePerson_shouldMapRequestSendMessageAndSave() {
+    PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
+    Person saved = buildPerson(UUID.randomUUID(), "John", "Doe", "john@example.com");
+    when(personRepository.save(any(Person.class))).thenReturn(saved);
 
-        Person result = personService.savePerson(request);
+    Person result = personService.savePerson(request);
 
-        verify(messageSender).sendMessage(any(Person.class));
-        verify(personRepository).save(any(Person.class));
-        assertThat(result.getFirstName()).isEqualTo("John");
-        assertThat(result.getLastName()).isEqualTo("Doe");
-        assertThat(result.getEmail()).isEqualTo("john@example.com");
-    }
+    verify(messageSender).sendMessage(any(Person.class));
+    verify(personRepository).save(any(Person.class));
+    assertThat(result.getFirstName()).isEqualTo("John");
+    assertThat(result.getLastName()).isEqualTo("Doe");
+    assertThat(result.getEmail()).isEqualTo("john@example.com");
+  }
 
-    @Test
-    void savePerson_whenMessageSenderThrows_shouldPropagateAndNotSave() {
-        PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
-        doThrow(new RuntimeException("broker unavailable"))
-                .when(messageSender)
-                .sendMessage(any(Person.class));
+  @Test
+  void savePerson_whenMessageSenderThrows_shouldPropagateAndNotSave() {
+    PersonRequest request = buildMockRequest("John", "Doe", "john@example.com");
+    doThrow(new RuntimeException("broker unavailable"))
+        .when(messageSender)
+        .sendMessage(any(Person.class));
 
-        assertThatThrownBy(() -> personService.savePerson(request))
-                .isInstanceOf(RuntimeException.class);
+    assertThatThrownBy(() -> personService.savePerson(request))
+        .isInstanceOf(RuntimeException.class);
 
-        verify(personRepository, never()).save(any());
-    }
+    verify(personRepository, never()).save(any());
+  }
 
-    // ── getPeople ─────────────────────────────────────────────────────────────
+  // ── getPeople ─────────────────────────────────────────────────────────────
 
-    @Test
-    void getPeople_shouldReturnPeopleWithTheirAccounts() {
-        UUID personId = UUID.randomUUID();
-        Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
-        AccountResponse account = buildAccount(personId);
+  @Test
+  void getPeople_shouldReturnPeopleWithTheirAccounts() {
+    UUID personId = UUID.randomUUID();
+    Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
+    AccountResponse account = buildAccount(personId);
 
-        when(personRepository.findAll()).thenReturn(List.of(person));
-        when(accountServiceClient.getAllAccounts()).thenReturn(List.of(account));
+    when(personRepository.findAll()).thenReturn(List.of(person));
+    when(accountServiceClient.getAllAccounts()).thenReturn(List.of(account));
 
-        List<PersonResponse> result = personService.getPeople();
+    List<PersonResponse> result = personService.getPeople();
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).personId()).isEqualTo(personId);
-        assertThat(result.get(0).firstName()).isEqualTo("Jane");
-        assertThat(result.get(0).accounts()).hasSize(1);
-    }
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).personId()).isEqualTo(personId);
+    assertThat(result.get(0).firstName()).isEqualTo("Jane");
+    assertThat(result.get(0).accounts()).hasSize(1);
+  }
 
-    @Test
-    void getPeople_shouldNotIncludeAccountsBelongingToOtherPeople() {
-        UUID personId = UUID.randomUUID();
-        UUID otherPersonId = UUID.randomUUID();
-        Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
-        AccountResponse otherAccount = buildAccount(otherPersonId);
+  @Test
+  void getPeople_shouldNotIncludeAccountsBelongingToOtherPeople() {
+    UUID personId = UUID.randomUUID();
+    UUID otherPersonId = UUID.randomUUID();
+    Person person = buildPerson(personId, "Jane", "Smith", "jane@example.com");
+    AccountResponse otherAccount = buildAccount(otherPersonId);
 
-        when(personRepository.findAll()).thenReturn(List.of(person));
-        when(accountServiceClient.getAllAccounts()).thenReturn(List.of(otherAccount));
+    when(personRepository.findAll()).thenReturn(List.of(person));
+    when(accountServiceClient.getAllAccounts()).thenReturn(List.of(otherAccount));
 
-        List<PersonResponse> result = personService.getPeople();
+    List<PersonResponse> result = personService.getPeople();
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).accounts()).isEmpty();
-    }
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).accounts()).isEmpty();
+  }
 
-    @Test
-    void getPeople_whenAccountServiceFails_shouldReturnPeopleWithEmptyAccounts() {
-        Person person = buildPerson(UUID.randomUUID(), "Jane", "Smith", "jane@example.com");
-        when(personRepository.findAll()).thenReturn(List.of(person));
-        when(accountServiceClient.getAllAccounts())
-                .thenThrow(new RuntimeException("service unavailable"));
+  @Test
+  void getPeople_whenAccountServiceFails_shouldReturnPeopleWithEmptyAccounts() {
+    Person person = buildPerson(UUID.randomUUID(), "Jane", "Smith", "jane@example.com");
+    when(personRepository.findAll()).thenReturn(List.of(person));
+    when(accountServiceClient.getAllAccounts())
+        .thenThrow(new RuntimeException("service unavailable"));
 
-        List<PersonResponse> result = personService.getPeople();
+    List<PersonResponse> result = personService.getPeople();
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).accounts()).isEmpty();
-    }
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).accounts()).isEmpty();
+  }
 
-    @Test
-    void getPeople_whenNoPeopleExist_shouldReturnEmptyList() {
-        when(personRepository.findAll()).thenReturn(List.of());
-        when(accountServiceClient.getAllAccounts()).thenReturn(List.of());
+  @Test
+  void getPeople_whenNoPeopleExist_shouldReturnEmptyList() {
+    when(personRepository.findAll()).thenReturn(List.of());
+    when(accountServiceClient.getAllAccounts()).thenReturn(List.of());
 
-        List<PersonResponse> result = personService.getPeople();
+    List<PersonResponse> result = personService.getPeople();
 
-        assertThat(result).isEmpty();
-    }
+    assertThat(result).isEmpty();
+  }
 
-    // ── helpers ───────────────────────────────────────────────────────────────
+  // ── helpers ───────────────────────────────────────────────────────────────
 
-    private PersonRequest buildMockRequest(String firstName, String lastName, String email) {
-        PersonRequest request = mock(PersonRequest.class);
-        when(request.getFirstName()).thenReturn(firstName);
-        when(request.getLastName()).thenReturn(lastName);
-        when(request.getEmail()).thenReturn(email);
-        return request;
-    }
+  private PersonRequest buildMockRequest(String firstName, String lastName, String email) {
+    PersonRequest request = mock(PersonRequest.class);
+    when(request.getFirstName()).thenReturn(firstName);
+    when(request.getLastName()).thenReturn(lastName);
+    when(request.getEmail()).thenReturn(email);
+    return request;
+  }
 
-    private Person buildPerson(UUID id, String firstName, String lastName, String email) {
-        return Person.builder()
-                .personId(id)
-                .firstName(firstName)
-                .lastName(lastName)
-                .email(email)
-                .build();
-    }
+  private Person buildPerson(UUID id, String firstName, String lastName, String email) {
+    return Person.builder()
+        .personId(id)
+        .firstName(firstName)
+        .lastName(lastName)
+        .email(email)
+        .build();
+  }
 
-    private AccountResponse buildAccount(UUID personId) {
-        return new AccountResponse(
-                UUID.randomUUID(),
-                personId,
-                "ACC-001",
-                "SAVINGS",
-                BigDecimal.TEN,
-                "ACTIVE",
-                LocalDateTime.now(),
-                LocalDateTime.now());
-    }
+  private AccountResponse buildAccount(UUID personId) {
+    return new AccountResponse(
+        UUID.randomUUID(),
+        personId,
+        "ACC-001",
+        "SAVINGS",
+        BigDecimal.TEN,
+        "ACTIVE",
+        LocalDateTime.now(),
+        LocalDateTime.now());
+  }
 }
