@@ -73,7 +73,7 @@ public class AccountService {
    * Updates the status of an existing account.
    *
    * @param accountId the UUID of the account to update
-   * @param status    the new {@link AccountStatus} to apply
+   * @param status the new {@link AccountStatus} to apply
    * @return the updated {@link Account} entity
    * @throws AccountNotFoundException if no account exists with the given ID
    */

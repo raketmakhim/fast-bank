@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 /**
  * Standard error response body returned by exception handlers.
  *
- * <p>Includes a unique error ID, HTTP status, human-readable message, request path, timestamp,
- * and an optional list of per-field validation errors.
+ * <p>Includes a unique error ID, HTTP status, human-readable message, request path, timestamp, and
+ * an optional list of per-field validation errors.
  */
 @Setter
 @Getter
@@ -27,10 +27,10 @@ public class ErrorResponse {
   /**
    * Constructs an {@code ErrorResponse} with a raw status code and error label.
    *
-   * @param status  the HTTP status code
-   * @param error   a short error label
+   * @param status the HTTP status code
+   * @param error a short error label
    * @param message a human-readable description of the error
-   * @param path    the request URI that caused the error
+   * @param path the request URI that caused the error
    */
   public ErrorResponse(int status, String error, String message, String path) {
     this.errorId = UUID.randomUUID();
@@ -44,9 +44,9 @@ public class ErrorResponse {
   /**
    * Constructs an {@code ErrorResponse} from a {@link HttpStatus}.
    *
-   * @param status  the HTTP status
+   * @param status the HTTP status
    * @param message a human-readable description of the error
-   * @param path    the request URI that caused the error
+   * @param path the request URI that caused the error
    */
   public ErrorResponse(HttpStatus status, String message, String path) {
     this.errorId = UUID.randomUUID();
@@ -60,9 +60,9 @@ public class ErrorResponse {
   /**
    * Constructs an {@code ErrorResponse} with per-field validation errors.
    *
-   * @param status      the HTTP status
-   * @param message     a human-readable description of the error
-   * @param path        the request URI that caused the error
+   * @param status the HTTP status
+   * @param message a human-readable description of the error
+   * @param path the request URI that caused the error
    * @param fieldErrors a list of field-level validation errors
    */
   public ErrorResponse(
@@ -71,9 +71,7 @@ public class ErrorResponse {
     this.fieldErrors = fieldErrors;
   }
 
-  /**
-   * Represents a single field-level validation error.
-   */
+  /** Represents a single field-level validation error. */
   @Getter
   public static class FieldError {
     private final String field;
@@ -82,7 +80,7 @@ public class ErrorResponse {
     /**
      * Constructs a {@code FieldError} for the given field and message.
      *
-     * @param field   the name of the field that failed validation
+     * @param field the name of the field that failed validation
      * @param message the validation error message
      */
     public FieldError(String field, String message) {

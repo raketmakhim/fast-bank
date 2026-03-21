@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for {@link Person} entities.
  *
- * <p>Provides standard CRUD operations ({@code save}, {@code findById}, {@code findAll},
- * {@code delete}, etc.) inherited from {@link JpaRepository}.
+ * <p>Provides standard CRUD operations ({@code save}, {@code findById}, {@code findAll}, {@code
+ * delete}, etc.) inherited from {@link JpaRepository}.
  */
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {}

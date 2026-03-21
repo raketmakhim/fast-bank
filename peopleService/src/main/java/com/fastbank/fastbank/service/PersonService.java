@@ -32,8 +32,8 @@ public class PersonService {
   /**
    * Constructs a {@code PersonService} with its required dependencies.
    *
-   * @param personRepository     the repository for persisting {@link Person} entities
-   * @param messageSender        the RabbitMQ message sender for publishing person events
+   * @param personRepository the repository for persisting {@link Person} entities
+   * @param messageSender the RabbitMQ message sender for publishing person events
    * @param accountServiceClient the Feign client for retrieving account data
    */
   public PersonService(
@@ -99,6 +99,7 @@ public class PersonService {
    *
    * @return a list of {@link AccountResponse} objects, or an empty list if the service is down
    */
+  @SuppressWarnings("PMD.AvoidCatchingGenericException")
   private List<AccountResponse> getAccountsOrEmpty() {
     try {
       return accountServiceClient.getAllAccounts();

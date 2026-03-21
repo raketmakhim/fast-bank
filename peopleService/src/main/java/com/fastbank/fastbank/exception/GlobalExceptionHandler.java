@@ -9,6 +9,4 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * Exception handler methods should be added here to return consistent error responses.
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
-
-}
+public class GlobalExceptionHandler {}

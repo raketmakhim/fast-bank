@@ -4,9 +4,7 @@ import com.fastbank.fastbank.model.dto.PersonRequest;
 import com.fastbank.fastbank.model.entity.Person;
 import java.util.UUID;
 
-/**
- * Utility class for mapping between {@link PersonRequest} DTOs and {@link Person} entities.
- */
+/** Utility class for mapping between {@link PersonRequest} DTOs and {@link Person} entities. */
 public class PersonMapper {
 
   /**

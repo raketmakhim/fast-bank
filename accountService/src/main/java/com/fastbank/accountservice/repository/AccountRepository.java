@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for {@link Account} entities.
  *
- * <p>Extends {@link JpaRepository} to provide standard CRUD operations, plus custom queries
- * for filtering accounts by status and person.
+ * <p>Extends {@link JpaRepository} to provide standard CRUD operations, plus custom queries for
+ * filtering accounts by status and person.
  */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, UUID> {
@@ -30,7 +30,7 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
    * Finds all accounts belonging to a person with the given status.
    *
    * @param personId the UUID of the person
-   * @param status   the {@link AccountStatus} to filter by
+   * @param status the {@link AccountStatus} to filter by
    * @return a list of matching {@link Account} objects
    */
   List<Account> findByPersonIdAndStatus(UUID personId, AccountStatus status);
@@ -47,7 +47,7 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
    * Finds all accounts for a person that match the given status using a JPQL query.
    *
    * @param personId the UUID of the person
-   * @param status   the {@link AccountStatus} to filter by
+   * @param status the {@link AccountStatus} to filter by
    * @return a list of matching {@link Account} objects
    */
   @Query("SELECT a FROM Account a WHERE a.personId = :personId AND a.status = :status")

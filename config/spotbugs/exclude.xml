@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+    xmlns="https://github.com/spotbugs/filter/3.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/master/spotbugs/etc/findbugsfilter.xsd">
+
+  <!--
+    EmailService: stores Spring-managed singleton beans (JavaMailSender, TemplateEngine)
+    via constructor injection. Storing these references is intentional and safe.
+  -->
+  <Match>
+    <Class name="com.fastbank.accountservice.email.EmailService"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+
+  <!--
+    EmailService.sendAccountCreatedEmail: wraps checked MessagingException in RuntimeException
+    so callers are not forced to handle a mail infrastructure exception.
+  -->
+  <Match>
+    <Class name="com.fastbank.accountservice.email.EmailService"/>
+    <Bug pattern="THROWS_METHOD_THROWS_RUNTIMEEXCEPTION"/>
+  </Match>
+
+  <!--
+    DTO classes: List fields are intentionally stored/returned as-is.
+    These are internal transfer objects used within a trusted Spring context.
+  -->
+  <Match>
+    <Class name="com.fastbank.fastbank.model.dto.PersonResponse"/>
+    <Bug pattern="EI_EXPOSE_REP"/>
+  </Match>
+
+  <Match>
+    <Class name="com.fastbank.fastbank.model.dto.PersonResponse"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+
+  <Match>
+    <Class name="com.fastbank.fastbank.model.dto.ErrorResponse"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+
+</FindBugsFilter>

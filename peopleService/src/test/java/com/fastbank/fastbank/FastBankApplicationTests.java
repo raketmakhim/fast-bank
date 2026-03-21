@@ -7,5 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class FastBankApplicationTests {
 
   @Test
-  void contextLoads() {}
+  @SuppressWarnings("PMD.UnitTestShouldIncludeAssert")
+  void contextLoads() {
+    // Spring Boot context loads successfully if no exception is thrown
+  }
 }
