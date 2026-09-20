@@ -13,5 +13,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "fast-bank"
 
+include("common")
 include("accountService")
 include("peopleService")

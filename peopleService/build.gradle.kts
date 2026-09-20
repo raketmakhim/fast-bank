@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":common"))
     implementation("org.postgresql:postgresql:42.7.3")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
