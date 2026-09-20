@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(":common"))
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.postgresql:postgresql:42.7.3")
